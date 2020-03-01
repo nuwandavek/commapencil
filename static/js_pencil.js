@@ -183,6 +183,18 @@ $('#go-to-button').click(()=>{
 
 
 
+$('#commit').click(()=>{
+    
+    $.ajax({
+        url: "/hub-action/?imgfile="+img_name,
+        success: function(data){
+            console.log(data);
+        },
+      });
+      
+      
+})
+
 // $('#erode').click(()=>{
     
 //     let img;
