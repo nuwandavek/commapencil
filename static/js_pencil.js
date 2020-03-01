@@ -1,6 +1,7 @@
 var canvas = document.getElementById('main-canvas');
 var ctx = canvas.getContext('2d');
 var currentSize = 10;
+var curZoom = 1;
 var curClass = 0;
 
 var classes = config.classes
@@ -9,21 +10,27 @@ console.log(classes);
 
 classes.forEach((col,i)=>{
     console.log(col,i);
-    $( "#pencils" ).append( "<div data-class='pencil-"+col['id']+"' class='c-p-div'><p class='c-p-text'>"+col['name']+"</p><div class='color-pencil' style='background:"+col['color']+"'></div></div>");
+    $( "#pencils1" ).append( "<div data-class='pencil-"+col['id']+"' class='c-p-div btn-outline-secondary'><p class='c-p-text'>"+col['name']+"</p><div class='color-pencil' style='background:"+col['color']+"'></div></div>");
 });
 
 
 $(".c-p-div").click((evt)=>{
     console.log($(evt.target).data("class"));
+    $(".c-p-div").css({"border":"none","background":"#eee"});
+    $(evt.target).css({"border":"1px #333 solid", "background":"#aaa"});
     curClass = parseInt($(evt.target).data("class").split('-')[1]);
 })
 
-function getMousePos(canvas, evt) {
+function getMousePos(canvas, evt, zoom) {
     var rect = canvas.getBoundingClientRect();
+    // console.log(evt.clientX, evt.clientY, rect, evt);
     return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
+        x: (evt.clientX - rect.left)/zoom,
+        y: (evt.clientY - rect.top)/zoom
+        // x: evt.screenX - rect.left,
+        // y: evt.screenY - rect.top
     };
+    
 }
 
 ctx.fillStyle = '#fff';
@@ -37,7 +44,7 @@ var overlayImg = null;
 
 function mousedown(canvas, evt) {
     isMouseDown=true;
-    var currentPosition = getMousePos(canvas, evt);
+    var currentPosition = getMousePos(canvas, evt, curZoom);
     curPath = [[currentPosition.x, currentPosition.y]]
     ctx.moveTo(currentPosition.x, currentPosition.y)
     ctx.beginPath();
@@ -53,7 +60,7 @@ function mousedown(canvas, evt) {
 function mousemove(canvas, evt) {
 
     if(isMouseDown){
-        var currentPosition = getMousePos(canvas, evt);
+        var currentPosition = getMousePos(canvas, evt, curZoom);
         ctx.lineTo(currentPosition.x, currentPosition.y)
         ctx.stroke();
         curPath.push([currentPosition.x, currentPosition.y]);
@@ -134,6 +141,8 @@ $('#clear').click(()=>{
 $(document).on('input', '#myRange', function() {
     // console.log($(this).val());
     currentSize = $(this).val();
+    // console.log(currentSize);
+    $("#brush-size").html(currentSize);
     $(".color-pencil").each(function( index ) {
         $( this ).css({"width":currentSize,"height":currentSize,"border-radius":currentSize/2});
       });
@@ -142,20 +151,51 @@ $(document).on('input', '#myRange', function() {
 $(document).on('input', '#myRangeOpacity', function() {
 
     $("#main-canvas").css({"opacity":$(this).val()/10});
+    $("#overlay-opacity").html($(this).val()/10);
+});
+
+
+$(document).on('input', '#myRangeZoom', function() {
+    curZoom = $(this).val();
+    $("#overlay-zoom").html(curZoom);
+    $("#main-canvas").css({"transform":"scale("+curZoom+")"});
+    $("#main-img").css({"transform":"scale("+curZoom+")"});
+
+    // currentSize = $("#myRange").val()/curZoom;
+    // console.log(currentSize);
 });
 
 
 $('#previous').click(()=>{
-    window.location.href = '/?id='+(parseInt(img_id)-1)
+    window.location.href = '/pencil?id='+(parseInt(img_id)-1)
 })
 
 $('#next').click(()=>{
-    window.location.href = '/?id='+(parseInt(img_id)+1)
+    window.location.href = '/pencil?id='+(parseInt(img_id)+1)
 })
 
 
 
 $('#go-to-button').click(()=>{
     var togoto = $('#go-to').val()
-    window.location.href = '/?id='+togoto;
+    window.location.href = '/pencil?id='+togoto;
 })
+
+
+
+// $('#erode').click(()=>{
+    
+//     let img;
+
+//     function preload() {
+//     img = loadImage('/static/data/segz/'+img_name);
+//     }
+//     function setup() {
+//     image(img, 0, 0);
+//     filter(THRESHOLD);
+//     }
+//     console.log(img);
+//     image(img, 0, 0);
+//     filter(ERODE);
+// })
+
