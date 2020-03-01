@@ -23,14 +23,15 @@
     </head>
 
     <body>
-        <p class="jumbo">commapencil</p>
-        
-        <p class="info">Total Images : {{data.total_images}} | Current Image ID : {{data.img_id}} | Current Image Name : {{data.img_name}}</p>
         
         
                         
         <div class="screen">
                 <div id="main-board">
+                        <p class="jumbo">commapencil</p>
+        
+                        <p class="info">Total Images : {{data.total_images}} | Current Image ID : {{data.img_id}} | Current Image Name : {{data.img_name}}</p>
+                
                         <img id="main-img" src="/static/data/imgs/{{data.img_name}}">
                         <canvas width="1164" height="874" id="main-canvas"></canvas>
                     </div>
@@ -45,11 +46,15 @@
                                 <button class="btn btn-outline-danger"  id="clear">Clear All</button>
                                 <button class="btn btn-outline-success"  id="download">Download</button>
                                 <br>
-                                <div style="display:flex;flex-direction: row; align-items: stretch; justify-content: center; margin: 10px">
+                                <label>Pencil Mode</label>
+                                <div style="display:flex;flex-direction: row; align-items: stretch; justify-content: space-around; margin: 10px">
                                         <button class="btn btn-outline-light modes active"  id="brush">Brush</button>
                                         <button class="btn btn-outline-light modes"  id="fill">Flood Fill</button>
                                         
                                 </div>
+                        </div>
+                                <div class="pencils">
+                                        <label>Pencil Properties</label>
                                 <label>Brush Size : <span id="brush-size">10</span></label>
                                 <input type="range" min="1" max="20" value="10" class="slider" id="myRange">
                                 <label>Overlay Opacity : <span id="overlay-opacity">0.5</span></label>
@@ -57,6 +62,8 @@
                                 <label>Zoom Level : <span id="overlay-zoom">1</span></label>
                                 <input type="range" min="1" max="5" value="1" class="slider" id="myRangeZoom">
                                 <br>
+                            </div>
+                            <div class="pencils">
                                 <div style="display:flex; justify-content:space-between;margin-top:10px; margin-bottom: 10px;">
                                         <button class="btn btn-outline-light"  id="previous">Previous</button>
                                         <button class="btn btn-outline-light"  id="next">Next</button>
@@ -74,6 +81,7 @@
                                 </div>
                                 <button class="btn btn-outline-light"  id="commit">Commit</button>
                                 <!-- <button class="btn btn-outline-secondary"  id="erode">Erode</button> -->
+                            </div>
                         </div>
                         
                 </div>
