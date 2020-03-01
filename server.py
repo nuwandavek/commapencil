@@ -33,12 +33,24 @@ def hub():
         process = subprocess.Popen(['git', 'status'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = process.communicate()
         if img_name in out.decode("utf-8"):
+                        
             process = subprocess.Popen(['git', 'add', file_location], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            out, err = process.communicate()
+            print('\n\n',{"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
+                
             process = subprocess.Popen(['git', 'commit', '-m','"add mask"'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            out, err = process.communicate()
+            print('\n\n',{"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
+
+            process = subprocess.Popen(['git', 'push'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            out, err = process.communicate()
+            print('\n\n',{"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
+
             process = subprocess.Popen(['hub', 'pull-request', '-m','"'+REPO_URL + 'blob/master/static/data/imgs/' + img_name+'"'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = process.communicate()
+            print({"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
         # print({"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
-        return jsonify({"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
+        return jsonify('\n\n',{"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
 
 
 
