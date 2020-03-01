@@ -1,0 +1,44 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="/static/cssmain.css">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+            <script type="text/javascript">
+                var img_name = "{{data.img_name}}";
+                var img_id = "{{data.img_id}}";
+                var config = JSON.parse('{{ data.config | tojson | safe}}')[0];
+                
+                
+            </script>
+    </head>
+
+    <body>
+        <p>commapencil</p>
+        <div id="toolbar">
+            <p>Total Images : {{data.total_images}}</p>
+            <p>Current Image ID : {{data.img_id}}, Current Image Name : {{data.img_name}}</p>
+            <div id="pencils">
+            </div>
+            <button id="undo">Undo</button>
+            <button id="download">Download</button>
+            <button id="load">Load Existing</button>
+            <button id="clear">Clear All</button>
+            <input type="range" min="1" max="50" value="10" class="slider" id="myRange">
+            <input type="range" min="0" max="10" value="5" class="slider" id="myRangeOpacity">
+            <div>
+                    <button id="previous">Previous</button>
+                    <button id="next">Next</button>
+                    <input id="go-to">
+                    <button id="go-to-button">Go to Id</button>
+            </div>
+        </div>
+        <div id="main-board">
+            <img id="main-img" src="/static/data/imgs/{{data.img_name}}">
+            <canvas width="1164" height="874" id="main-canvas"></canvas>
+        </div>
+        
+        <script src="/static/jsmain.js"></script>
+    </body>
+
+</html>
