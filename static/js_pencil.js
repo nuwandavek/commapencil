@@ -5,6 +5,9 @@ var curZoom = 1;
 var curClass = 0;
 
 var classes = config.classes
+var currentCanvasState;
+
+var mode = 'brush';
 
 console.log(classes);
 
@@ -35,6 +38,7 @@ function getMousePos(canvas, evt, zoom) {
 
 ctx.fillStyle = '#fff';
 ctx.fillRect(0,0,canvas.width, canvas.height);
+currentCanvasState = ctx.getImageData(0, 0, canvas.width, canvas.height);
 // ON MOUSE DOWN
 
 var isMouseDown = false;
@@ -43,15 +47,24 @@ var globalPaths = [];
 var overlayImg = null;
 
 function mousedown(canvas, evt) {
-    isMouseDown=true;
-    var currentPosition = getMousePos(canvas, evt, curZoom);
-    curPath = [[currentPosition.x, currentPosition.y]]
-    ctx.moveTo(currentPosition.x, currentPosition.y)
-    ctx.beginPath();
-    ctx.lineWidth  = currentSize;
-    ctx.lineCap = "round";
-    ctx.strokeStyle = classes[curClass].color;
-    ctx.fillStyle = classes[curClass].color;
+    if (mode==='brush'){
+        isMouseDown=true;
+        var currentPosition = getMousePos(canvas, evt, curZoom);
+        curPath = [[currentPosition.x, currentPosition.y]]
+        ctx.moveTo(currentPosition.x, currentPosition.y)
+        ctx.beginPath();
+        ctx.lineWidth  = currentSize;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = classes[curClass].color;
+        ctx.fillStyle = classes[curClass].color;
+    }
+    else if (mode ==='fill'){
+        var currentPosition = getMousePos(canvas, evt, curZoom);
+        ctx.fillStyle = classes[curClass].color;
+        ctx.fillFlood(currentPosition.x, currentPosition.y,10);
+        
+    }
+    
 
 }
 
@@ -70,9 +83,12 @@ function mousemove(canvas, evt) {
 // ON MOUSE UP
 
 function mouseup() {
-    isMouseDown=false
-    globalPaths.push({path:curPath,className:curClass,color:classes[curClass].color, size:currentSize});
-    drawAllPaths();
+    if (mode==='brush'){
+        
+        isMouseDown=false
+        globalPaths.push({path:curPath,className:curClass,color:classes[curClass].color, size:currentSize});
+        drawAllPaths();
+    }
 }
 
 function drawAllPaths(){
@@ -99,6 +115,8 @@ function drawAllPaths(){
         ctx.stroke();
         ctx.fill();
     })
+    currentCanvasState = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    console.log(currentCanvasState);
     
 }
 
@@ -181,6 +199,18 @@ $('#go-to-button').click(()=>{
     window.location.href = '/pencil?id='+togoto;
 })
 
+$('#brush').click((evt)=>{
+    mode = 'brush';
+    $('.modes').removeClass("active");
+    $(evt.target).addClass("active");
+
+})
+
+$('#fill').click((evt)=>{
+    mode = 'fill';
+    $('.modes').removeClass("active");
+    $(evt.target).addClass("active");
+})
 
 
 $('#commit').click(()=>{
@@ -194,20 +224,4 @@ $('#commit').click(()=>{
       
       
 })
-
-// $('#erode').click(()=>{
-    
-//     let img;
-
-//     function preload() {
-//     img = loadImage('/static/data/segz/'+img_name);
-//     }
-//     function setup() {
-//     image(img, 0, 0);
-//     filter(THRESHOLD);
-//     }
-//     console.log(img);
-//     image(img, 0, 0);
-//     filter(ERODE);
-// })
 

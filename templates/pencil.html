@@ -8,8 +8,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <!-- <script src="/static/morph.js"></script>   -->
-        <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+        <script src="/static/floodfill.min.js"></script>
         
 
 
@@ -46,6 +45,11 @@
                                 <button class="btn btn-outline-danger"  id="clear">Clear All</button>
                                 <button class="btn btn-outline-success"  id="download">Download</button>
                                 <br>
+                                <div style="display:flex;flex-direction: row; align-items: stretch; justify-content: center; margin: 10px">
+                                        <button class="btn btn-outline-light modes active"  id="brush">Brush</button>
+                                        <button class="btn btn-outline-light modes"  id="fill">Flood Fill</button>
+                                        
+                                </div>
                                 <label>Brush Size : <span id="brush-size">10</span></label>
                                 <input type="range" min="1" max="20" value="10" class="slider" id="myRange">
                                 <label>Overlay Opacity : <span id="overlay-opacity">0.5</span></label>
