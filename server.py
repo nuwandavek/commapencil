@@ -38,7 +38,7 @@ def hub():
             out, err = process.communicate()
             print('\n\n',{"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
                 
-            process = subprocess.Popen(['git', 'commit', '-m','"add mask"'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = subprocess.Popen(['git', 'commit', '-m','" add mask : '+REPO_URL + 'blob/master/static/data/imgs/' + img_name+'"'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = process.communicate()
             print('\n\n',{"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
 
@@ -46,7 +46,7 @@ def hub():
             out, err = process.communicate()
             print('\n\n',{"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
 
-            process = subprocess.Popen(['hub', 'pull-request', '-m','"'+REPO_URL + 'blob/master/static/data/imgs/' + img_name+'"'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = subprocess.Popen(['hub', 'pull-request', '-m','" add mask : '+REPO_URL + 'blob/master/static/data/imgs/' + img_name+'"'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = process.communicate()
             print({"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
         # print({"out":str(out.decode("utf-8")), "err": str(err.decode("utf-8") )})
